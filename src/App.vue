@@ -38,7 +38,7 @@ button{
   &__header{
     padding-bottom: 1.5rem;
     h1{
-      margin-top: 0.5rem;
+      padding-top: 0.5rem;
       font-size: 1.5rem;
       font-weight: normal;
     }
@@ -47,6 +47,11 @@ button{
     .notice{
       margin-top: 2rem;
       margin-bottom: 2rem;
+    }
+    .row{
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
     }
   }
   &__footer{
@@ -143,7 +148,7 @@ button{
   margin-top: 1rem;
   font-size: 0.8rem;
   a{
-    color: #666;
+    color: #999;
     +a{
       margin-left: 20px;
     }
@@ -152,6 +157,11 @@ button{
 
 a{
   color: $color-primary;
+}
+
+.flex-align-center{
+  display: flex;
+  align-items: center;
 }
 
 </style>

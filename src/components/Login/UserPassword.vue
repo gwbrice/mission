@@ -1,14 +1,18 @@
 <template>
   <form class="password">
     <div class="wrapper__body">
-      <div class="input-placeholder" >
+      <div class="input-placeholder">
         <div class="input--wrap">
-          <input type="text" name="" id="password" v-model.trim="password" :class="{whithValue : password.length}">
+          <input :type="showPassword ? 'text' : 'password'" name="" id="password" v-model.trim="$v.password.$model" :class="{whithValue : password.length}">
           <label for="password">輸入您的密碼</label>
+          <div class="btn btn-password" @click="passwordVisible">
+            <font-awesome-icon v-if="!showPassword" icon="eye" />
+            <font-awesome-icon v-if="showPassword" icon="eye-slash" />
+          </div>
         </div>
-        <div v-if="submitted && !$v.password.required" class="hint hint-warn">請輸入電子郵件地址或電話號碼</div>
       </div>
-    </div>
+      <div v-if="submitted && !$v.password.required" class="hint hint-warn">請輸入電子郵件地址或電話號碼</div>
+      </div>
     <div class="wrapper__footer">
       <button class="btn btn-text">忘記密碼?</button>
       <button class="btn btn-primary" @click.prevent="verifyHandler">繼續</button>
@@ -20,11 +24,12 @@
 import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'UserPassword',
+  props:['account'],
   data(){
     return{
-      account: '',
       password: '',
       submitted: false,
+      showPassword: false,
       isAccountValidated: false,
     }
   },
@@ -32,6 +37,9 @@ export default {
     password: {required}
   },
   methods:{
+    passwordVisible(){
+      this.showPassword = !this.showPassword
+    },
     verifyHandler(){
       this.submitted = true
       this.$v.$touch()
@@ -43,6 +51,24 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+  .accountSelect{
+    text-align: center;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .password{
+    .wrapper__footer{
+      margin-top: 1.5rem;
+    }
+  .btn-password{
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+  }
+  }
+</style>>
 
-</style>

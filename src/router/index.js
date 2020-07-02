@@ -1,17 +1,24 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Login from '../views/Login'
 import UserAccount from '../components/Login/UserAccount'
 import UserPassword from '../components/Login/UserPassword'
 
+import Signin from '../views/Signin'
+
 Vue.use(VueRouter)
 
   const routes = [
-
   {
-    path: '/',
+    path:'/',
+    redirect: '/login/account'
+  },
+  {
+    path: '/login',
     name: 'Login',
     component: Login,
+    redirect: '/login/account',
     children:[
       {
         path: 'account',
@@ -22,6 +29,11 @@ Vue.use(VueRouter)
         component: UserPassword
       }
     ]
+  },
+  {
+    path: '/signin',
+    name: 'Signin',
+    component: Signin,
   }
 ]
 
