@@ -6,29 +6,33 @@
           <input type="text" name="" id="account" 
           v-model.trim="$v.account.$model" 
           :class="{whithValue : account.length, error : validationStatus($v.account)}">
-          <label for="account">電子郵件地址或電話號碼</label>
+          <label for="account">{{ $t('SIGN.ACCOUNT_HOLDER') }}</label>
         </div>
         <div v-if="submitted && !$v.account.required" class="hint hint-warn">
-          請輸入電子郵件地址或電話號碼
+          {{ $t('SIGN.ACCOUNT_WARN_REQUIRE') }}
         </div>
         <div v-if="submitted && !$v.account.mailAndPhone" class="hint hint-warn">
-          請輸入有效的電子郵件地址或電話號碼
-        </div>        
+          {{ $t('SIGN.ACCOUNT_WARN_INVALID') }}
+        </div> 
+        <div v-if="submitted && !isAccountValidated" class="hint hint-warn">
+          {{ $t('SIGN.ACCOUNT_WARN_NOTFOUND') }}
+        </div>                  
       </div>
-      <button class="btn btn-text">忘記電子郵件地址?</button>
-      <div class="notice">如果這不是你的電腦，請使用訪客模式以私密方式登入。<a href="#">瞭解詳情</a></div>
+      <button class="btn btn-text">{{ $t('SIGN.FORGOT') }}</button>
+      <div class="notice">{{ $t('SIGN.NOTICE') }}<a href="#">{{ $t('SIGN.NOTICE_MORE') }}</a></div>
     </div>
     <div class="wrapper__footer">
-      <router-link class="btn btn-text" to="/signin">建立帳戶</router-link>
-      <input type="submit" class="btn btn-primary" value="繼續">
+      <router-link class="btn btn-text" to="/signin"> {{ $t('SIGN.CREATE') }}</router-link>
+      <input type="submit" class="btn btn-primary" :value="$t('BTN.NEXT')">
     </div>
   </form>   
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
-import { helpers } from 'vuelidate/lib/validators'
+import axios from 'axios'
+import { required, helpers } from 'vuelidate/lib/validators'
 const mailAndPhone = helpers.regex('mailAndPhone', /^(?:\d{10}|\w+@\w+\.\w{2,3})$/)
+const url="http://localhost:3000/users"
 
 export default {
   name: 'UserLogin',
@@ -36,7 +40,7 @@ export default {
     return{
       account: '',
       submitted: false,
-      isAccountValidated: false,
+      isAccountValidated: true,
     }
   },
   validations:{
@@ -46,10 +50,16 @@ export default {
     submitAccount(){
       this.submitted = true
       this.$v.$touch()
+      const user = this.account.substr(0,this.account.indexOf('@'))
       if (!this.$v.$invalid) { 
-        this.isAccountValidated = true
-        this.$router.push({ path: 'password' })
-        this.$emit('accountHandler', this.account)
+        axios.get(url+'?userName='+user).then((res)=>{
+          if(res.data.length){
+            this.$router.push({ path: 'password' })
+            this.$emit('accountHandler', this.account)
+          }else{
+            this.isAccountValidated = false
+          }
+        })
       }
     },
     validationStatus(validation){

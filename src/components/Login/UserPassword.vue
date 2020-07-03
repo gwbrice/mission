@@ -3,25 +3,40 @@
     <div class="wrapper__body">
       <div class="input-placeholder">
         <div class="input--wrap">
-          <input :type="showPassword ? 'text' : 'password'" name="" id="password" v-model.trim="$v.password.$model" :class="{whithValue : password.length}">
-          <label for="password">輸入您的密碼</label>
+          <input 
+            id="password" 
+            :type="showPassword ? 'text' : 'password'" 
+            v-model.trim="$v.password.$model" 
+            :class="{whithValue : password.length, error : validationStatus($v.password)}"
+          >
+
+          <label for="password">{{ $t('SIGN.PASSWORD_HOLDER') }}</label>
           <div class="btn btn-password" @click="passwordVisible">
             <font-awesome-icon v-if="!showPassword" icon="eye" />
             <font-awesome-icon v-if="showPassword" icon="eye-slash" />
           </div>
         </div>
-      </div>
-      <div v-if="submitted && !$v.password.required" class="hint hint-warn">請輸入電子郵件地址或電話號碼</div>
+        <div v-if="submitted && !$v.password.required" class="hint hint-warn">
+          {{ $t('SIGN.PASSWORD_WARN_REQUIRE') }}
+        </div>
+        <div v-if="submitted && !isAccountValidated" class="hint hint-warn">
+          {{ $t('SIGN.PASSWORD_WARN_INVALID') }}
+        </div>        
+        </div>
       </div>
     <div class="wrapper__footer">
-      <button class="btn btn-text">忘記密碼?</button>
-      <button class="btn btn-primary" @click.prevent="verifyHandler">繼續</button>
+      <button class="btn btn-text">{{ $t('SIGN.PASSWORD_FORGOT') }}</button>
+      <button class="btn btn-primary" @click.prevent="verifyHandler">{{ $t('BTN.NEXT') }}</button>
     </div>
   </form>   
 </template>
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import axios from 'axios'
+
+const url="http://localhost:3000/users"
+
 export default {
   name: 'UserPassword',
   props:['account'],
@@ -30,7 +45,7 @@ export default {
       password: '',
       submitted: false,
       showPassword: false,
-      isAccountValidated: false,
+      isAccountValidated: true,
     }
   },
   validations:{
@@ -43,9 +58,22 @@ export default {
     verifyHandler(){
       this.submitted = true
       this.$v.$touch()
+      const user = this.account.substr(0,this.account.indexOf('@'))
       if (!this.$v.$invalid) { 
-        alert('成功登入')
+        axios.get(url+'?userName='+user).then((res)=>{
+          console.log(res.data[0].password)
+          if(res.data[0].password === this.password){
+            this.isAccountValidated = true,
+            alert('成功登入')
+          }else{
+            this.isAccountValidated = false
+          }
+        })
+        
       }
+    },
+    validationStatus(validation){
+      return typeof validation != "undefined" ? validation.$error : false
     }
   }
 }

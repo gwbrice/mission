@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Vuelidate from 'vuelidate'
 import router from './router'
 
+import Vuelidate from 'vuelidate'
+import i18n from '../common/plugins/vue-i18n'
 // font awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEye,faEyeSlash,faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
@@ -16,5 +17,6 @@ Vue.use(Vuelidate)
 
 new Vue({
   router,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

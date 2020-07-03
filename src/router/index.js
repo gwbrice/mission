@@ -6,7 +6,7 @@ import UserAccount from '../components/Login/UserAccount'
 import UserPassword from '../components/Login/UserPassword'
 
 import Signin from '../views/Signin'
-
+import Administrator from '../views/Administrator'
 Vue.use(VueRouter)
 
   const routes = [
@@ -34,6 +34,11 @@ Vue.use(VueRouter)
     path: '/signin',
     name: 'Signin',
     component: Signin,
+  },
+  {
+    path: '/administrator',
+    name: 'Administrator',
+    component: Administrator
   }
 ]
 
