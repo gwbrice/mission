@@ -1,12 +1,39 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <div v-if="currentRoute === '/'">
+      <div id="nav" >
+        <router-link class="btn btn-primary btn-link" to="/login">任務一</router-link>
+        <router-link class="btn btn-primary btn-link" to="/administrator">任務二</router-link>
+      </div>
+      <div class="dialog">
+        <div class="dialog__title">Project setup</div>
+        <div class="dialog__body">
+          $npm install
+        </div>
+        <div class="dialog__title">Compiles and hot-reloads for development</div>
+        <div class="dialog__body">
+          <p>
+            $json-server --watch db.json
+          </p>
+          <p>
+            $npm run serve 
+          </p>
+        </div>      
+      </div>
+    </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  computed:{
+    currentRoute(){
+      return this.$route.path;
+    }   
+  }
+}
+</script>
 
 <style lang="scss">
 
@@ -22,13 +49,20 @@
   }
 
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Microsoft JhengHei', Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
     @include breakpoint-down(pl){
       min-height: 100vh;
     }
+  }
+
+  #nav{
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    margin-top: 5rem;
   }
 
   input:-webkit-autofill,
@@ -119,7 +153,22 @@
       }
     }
   }
-
+  .dialog{
+    width: 920px;
+    background-color: #eee;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem 1.5rem;
+    margin-top: 1rem;
+    &__title{
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    &__body{
+      margin-bottom: 1rem;
+    }
+  }
   .input{
     &-placeholder{
       position: relative;
@@ -196,6 +245,25 @@
       &:hover{
         background-color: lighten($color-primary, 10);
       }
+    }
+    &-circle{
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover{
+        background-color: #ddd;
+      }
+    }
+    &-link{
+      font-size: 2rem;
+      margin: 1rem;
+    }
+    &-auto{
+      width: auto;
+      display: inline-block;
     }
   }
 

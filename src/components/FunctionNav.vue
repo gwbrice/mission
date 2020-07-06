@@ -22,7 +22,6 @@ export default {
     setLang(evt) {
       let lang = evt.target.value
       this.setActiveLanguage(lang)
-      // this.$router.push({ path: '/' })
       return history.go(0)
     },  
   }

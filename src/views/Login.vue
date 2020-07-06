@@ -21,26 +21,20 @@
         />
       </transition>
     </div>
-    <div class="functionNav">
-      <select id="lang" v-model="$i18n.locale" @change="setLang($event)">
-        <option value="tw">繁體中文</option>
-        <option value="en">English</option>
-      </select>
-      <div>
-        <a href="#">{{ $t('GENERAL.HELP') }}</a>
-        <a href="#">{{ $t('GENERAL.PRIVACY') }}</a>
-        <a href="#">{{ $t('GENERAL.TERMS') }}</a>
-      </div>
-    </div>
+    <FunctionNav/>
   </div>
 </template>
 
 <script>
 
 import { required } from 'vuelidate/lib/validators'
+import FunctionNav from '@/components/FunctionNav'
 
 export default {
   name: 'UserLogin',
+  components:{
+    FunctionNav
+  },
   data(){
     return{
       account: '',
@@ -97,7 +91,6 @@ export default {
     setLang(evt) {
       let lang = evt.target.value
       this.setActiveLanguage(lang)
-      this.$router.push({ path: '/' })
       return history.go(0)
     },    
   },

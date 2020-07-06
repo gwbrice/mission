@@ -61,7 +61,6 @@ export default {
       const user = this.account.substr(0,this.account.indexOf('@'))
       if (!this.$v.$invalid) { 
         axios.get(url+'?userName='+user).then((res)=>{
-          console.log(res.data[0].password)
           if(res.data[0].password === this.password){
             this.isAccountValidated = true,
             alert('成功登入')

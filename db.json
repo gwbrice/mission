@@ -5,14 +5,40 @@
       "firstName": "小明",
       "lastName": "林",
       "password": "shao12345",
+      "auth": "admin",
       "id": "6gg9z7h"
     },
     {
-      "userName": "lin666",
+      "userName": "lin666222",
       "firstName": "666",
       "lastName": "林",
       "password": "lin123456",
+      "auth": "user",
       "id": "kvVVnC9"
+    },
+    {
+      "userName": "johndoe%$123",
+      "firstName": "Doe",
+      "lastName": "Jhon",
+      "password": "jhon1234",
+      "auth": "user",
+      "id": "iG5HjbX"
+    },
+    {
+      "userName": "domin$mary",
+      "firstName": "Mary",
+      "lastName": "Domin",
+      "password": "domin123",
+      "auth": "admin",
+      "id": "b02ISwP"
+    },
+    {
+      "userName": "demo#$user1",
+      "firstName": "User",
+      "lastName": "Demo",
+      "password": "demo123456",
+      "auth": "user",
+      "id": "sroS6tB"
     }
   ]
 }
