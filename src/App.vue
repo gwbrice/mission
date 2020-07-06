@@ -12,7 +12,6 @@
 
   @import "@/scss/_bootstrap-reboot.scss";
   @import "@/scss/_breakpoint.scss";
-  @import "@/assets/font/fontello.scss";
 
   $color-primary: #1a73e8;
   $color-danger: #d93025;
@@ -27,14 +26,44 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
-
+    @include breakpoint-down(pl){
+      min-height: 100vh;
+    }
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active  {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }     
+
+  .container{
+    margin-top: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    @include breakpoint-down(pl){
+      min-height: 100vh;
+      margin-top: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  }
   .wrapper{
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 2.5rem;
     overflow: hidden;
+    position: relative;
+    @include breakpoint-down(pl){
+      border-radius: 0px;
+      padding: 2rem;
+      display: block !important;
+      flex-grow: 1;
+      border: none;
+    }
     &__header{
       padding-bottom: 1.5rem;
       h1{
@@ -51,7 +80,9 @@
       .row{
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: 5px;
+        &.no-wrap{
+          flex-wrap: nowrap;
+        }
       }
     }
     &__footer{
@@ -60,12 +91,39 @@
       justify-content: space-between;
       padding-bottom: 2rem;
     }
+    &__loading{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 5px;
+      background-color: lighten($color-primary, 20);
+      &:before{
+        content: '';
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 5px;
+        transform: translateX(-100%);
+        background-color: lighten($color-primary, 5);
+        animation: loading 1.2s infinite ease-in-out;
+      }
+      @keyframes loading {
+        0%{
+          transform: translateX(-100%);
+        }
+        100%{
+          transform: translateX(200%);
+        }
+      }
+    }
   }
 
   .input{
     &-placeholder{
       position: relative;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
       label{
         position: absolute;
         pointer-events: none;
@@ -147,6 +205,9 @@
     justify-content: space-between;
     margin-top: 1rem;
     font-size: 0.8rem;
+    @include breakpoint-down(pl){
+      padding: 1rem 2rem;
+    }
     a{
       color: #999;
       +a{

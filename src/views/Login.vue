@@ -1,6 +1,7 @@
 <template>
-  <div class="userLogin">
+  <div class="userLogin container">
     <div class="wrapper">
+      <div class="wrapper__loading" v-show="isLoading"></div>
       <div class="wrapper__header">
         <img src="@/assets/img/logo.svg" alt="">
         <h1>{{ title }}</h1>
@@ -13,7 +14,11 @@
         name="fade"
         mode="out-in"
       >
-        <router-view @accountHandler="accountHandler" :account="account"/>
+        <router-view 
+          @accountHandler="accountHandler" 
+          @loadingHandler="loadingHandler"
+          :account="account"
+        />
       </transition>
     </div>
     <div class="functionNav">
@@ -43,6 +48,7 @@ export default {
       submitted: false,
       isAccountValidated: false,
       loginStatus: 0,
+      isLoading: false
     }
   },
   props: {
@@ -78,6 +84,9 @@ export default {
     validationStatus(validation){
       return typeof validation != "undefined" ? validation.$error : false
     },
+    loadingHandler(val){
+      this.isLoading = val
+    },
     accountHandler(account){
       this.account = account;
       this.loginStatus = 1;
@@ -87,7 +96,6 @@ export default {
     },
     setLang(evt) {
       let lang = evt.target.value
-      console.log(lang)
       this.setActiveLanguage(lang)
       this.$router.push({ path: '/' })
       return history.go(0)
@@ -111,16 +119,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  @import "@/scss/_breakpoint.scss";
   .userLogin{
     width: 480px;
-    margin-top: 5rem;
-    margin-left: auto;
-    margin-right: auto;
+    @include breakpoint-down(pl){
+      width: 100%;
+    }
     .wrapper__header{
       text-align: center;
     }
-    
   }
 
   .fade{

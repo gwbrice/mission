@@ -19,7 +19,7 @@
         <div v-if="submitted && !$v.password.required" class="hint hint-warn">
           {{ $t('SIGN.PASSWORD_WARN_REQUIRE') }}
         </div>
-        <div v-if="submitted && !isAccountValidated" class="hint hint-warn">
+        <div v-if="submitted && !isAccountValidated && $v.password.required" class="hint hint-warn">
           {{ $t('SIGN.PASSWORD_WARN_INVALID') }}
         </div>        
         </div>

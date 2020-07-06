@@ -5,7 +5,7 @@
         <div class="input--wrap">
           <input type="text" name="" id="account" 
           v-model.trim="$v.account.$model" 
-          :class="{whithValue : account.length, error : validationStatus($v.account)}">
+          :class="{whithValue : account.length, error : submitted && validationStatus($v.account)}">
           <label for="account">{{ $t('SIGN.ACCOUNT_HOLDER') }}</label>
         </div>
         <div v-if="submitted && !$v.account.required" class="hint hint-warn">
@@ -54,8 +54,12 @@ export default {
       if (!this.$v.$invalid) { 
         axios.get(url+'?userName='+user).then((res)=>{
           if(res.data.length){
-            this.$router.push({ path: 'password' })
-            this.$emit('accountHandler', this.account)
+            this.$emit('loadingHandler', true)
+            setTimeout(()=>{
+              this.$router.push({ path: 'password' })
+              this.$emit('accountHandler', this.account)
+              this.$emit('loadingHandler', false)
+            },2000)
           }else{
             this.isAccountValidated = false
           }

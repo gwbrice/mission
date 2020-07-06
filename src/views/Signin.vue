@@ -1,6 +1,7 @@
 <template>
-  <div class="userSignin">
-    <div class="wrapper flex-align-center">
+  <div class="userSignin container">
+    <div class="wrapper">
+      <div class="wrapper__loading" v-show="isLoading"></div>
       <form @submit.prevent="submitHandler">
         <div class="wrapper__header">
           <img src="@/assets/img/logo.svg" alt="">
@@ -34,7 +35,7 @@
           <div class="row">
             <div class="input-placeholder input-mail">
               <div class="input--wrap">
-                <input type="text" name="" id="user" v-model.trim="$v.user.$model" :class="{whithValue : user.length, error : validationStatus($v.user)}">
+                <input type="text" name="" id="user" v-model.trim="$v.user.$model" :class="{whithValue : user.length, error : validationStatus($v.user) && submitted}">
                 <label for="user">
                   {{ $t('CREATE.USER_HOLDER') }}
                 </label>
@@ -57,30 +58,32 @@
           <button class="btn btn-text">
             {{ $t('CREATE.CURRENT_EMAIL') }}
           </button>
-          <div class="row">
-            <div class="input-placeholder">
-              <div class="input--wrap">
-              <input :type="showPassword ? 'text' : 'password'" name="" id="password" v-model.trim="$v.password.$model" :class="{whithValue : password.length, error : validationStatus($v.password)}">
-                <label for="password">
-                  {{ $t('CREATE.PASSWORD_HOLDER') }}
-                </label>
+          <div class="row no-wrap">
+            <div class="passwordWrap">
+              <div class="input-placeholder">
+                <div class="input--wrap">
+                <input :type="showPassword ? 'text' : 'password'" name="" id="password" v-model.trim="$v.password.$model" :class="{whithValue : password.length, error : validationStatus($v.password) && submitted}">
+                  <label for="password">
+                    {{ $t('CREATE.PASSWORD_HOLDER') }}
+                  </label>
+                </div>
+                <div v-if="submitted && !$v.password.required" class="hint hint-warn">
+                  {{ $t('CREATE.PASSWORD_WARN_REQUIRE') }}
+                </div>
+                <div v-if="submitted && !$v.password.rulePassword && $v.password.required" class="hint hint-warn">
+                  包含非法字元或字數不正確
+                </div>
               </div>
-              <div v-if="submitted && !$v.password.required" class="hint hint-warn">
-                {{ $t('CREATE.PASSWORD_WARN_REQUIRE') }}
-              </div>
-              <div v-if="submitted && !$v.password.rulePassword && $v.password.required" class="hint hint-warn">
-                包含非法字元或字數不正確
-              </div>
-            </div>
-            <div class="input-placeholder">
-              <div class="input--wrap">
-                <input :type="showPassword ? 'text' : 'password'" name="" id="repeatPassword" v-model.trim="$v.repeatPassword.$model" :class="{whithValue : repeatPassword.length, error : validationStatus($v.repeatPassword)}">
-                <label for="repeatPassword">
-                  {{ $t('CREATE.PASSWORDREPEAT_HOLDER') }}
-                </label>
-              </div>
-              <div class="hint hint-warn" v-if="submitted && !$v.repeatPassword.sameAsPassword">
-                {{ $t('CREATE.PASSWORDREPEAT_WARN_INVALID') }}
+              <div class="input-placeholder">
+                <div class="input--wrap">
+                  <input :type="showPassword ? 'text' : 'password'" name="" id="repeatPassword" v-model.trim="$v.repeatPassword.$model" :class="{whithValue : repeatPassword.length, error : validationStatus($v.repeatPassword)}">
+                  <label for="repeatPassword">
+                    {{ $t('CREATE.PASSWORDREPEAT_HOLDER') }}
+                  </label>
+                </div>
+                <div class="hint hint-warn" v-if="submitted && !$v.repeatPassword.sameAsPassword">
+                  {{ $t('CREATE.PASSWORDREPEAT_WARN_INVALID') }}
+                </div>
               </div>
             </div>
             <div class="btn btn-password" @click="passwordVisible">
@@ -126,6 +129,7 @@ export default {
       showPassword: false,
       submitted: false,
       userExist: false,
+      isLoading: false
     }
   },
   components:{
@@ -167,8 +171,12 @@ export default {
               password: this.password
             }
           ).then(()=>{
-            alert('註冊成功')
-            this.$router.push({ path: '/' })
+            this.isLoading = true
+            setTimeout(()=>{
+              this.isLoading = false
+              alert('註冊成功')
+              this.$router.push({ path: '/' })
+            },2000)
           })
         }
       }).catch(function (error) {
@@ -176,21 +184,31 @@ export default {
       })
 
     },
-    checkUserExist(){
-
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  @import "@/scss/_breakpoint.scss";
+
   .userSignin{
     width: 780px;
-    margin-top: 5rem;
-    margin-left: auto;
-    margin-right: auto;
+    @include breakpoint-down(tl){
+      width: 90%;
+      .intro{
+        display: none;
+      }
+    }
+    @include breakpoint-down(pl){
+      margin-top: 0px;
+      width: 100%;
+    }
     form{
       padding-right: 40px;
+      width: 100%;
+      @include breakpoint-down(tl){
+        padding-right: 0px;
+      }
     }
     .intro{
       text-align: center;
@@ -203,6 +221,12 @@ export default {
       +*{
         margin-left: 15px;
       }
+      @include breakpoint-down(pl){
+        flex: 0 1 100%;
+        +*{
+          margin-left: 0px;
+        }        
+      }      
     }
     .input-mail{
       input{
@@ -214,6 +238,12 @@ export default {
         transform: translateY(50%);
       }
     }
+    .passwordWrap{
+      width: 100%;
+      @include breakpoint-up(pl){
+        display: flex;
+      }
+    }
     .btn-text{
       padding: 5px 0px;
       font-size: 0.9rem;
@@ -221,6 +251,13 @@ export default {
     }
     .btn-password{
       margin-top: 10px;
+      margin-left: 10px;
+    } 
+    .wrapper{
+      display: flex;
+      align-items: center;
+
     }
+
   }
 </style>>

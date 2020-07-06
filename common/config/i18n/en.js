@@ -50,7 +50,7 @@ export const locale = {
     PASSWORD_WARN_REQUIRE: 'Enter a password',
     PASSWORD_WARN_INVALID: 'Use 8 or more characters with a mix of letters, numbers & symbols',
 
-    PASSWORDREPEAT_HOLDER: 'Enter your password',
+    PASSWORDREPEAT_HOLDER: 'Confirm',
     PASSWORDREPEAT_WARN_INVALID: 'Those passwords didn\'t match. Try again.',
   }
 }
