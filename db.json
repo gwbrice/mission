@@ -2,6 +2,7 @@
   "users": [
     {
       "userName": "shaolin",
+      "mail": "shaolin@gmail.com",
       "firstName": "小明",
       "lastName": "林",
       "password": "shao12345",
@@ -9,7 +10,8 @@
       "id": "6gg9z7h"
     },
     {
-      "userName": "lin666222",
+      "userName": "lin6663333",
+      "mail": "lin6663333@gmail.com",
       "firstName": "666",
       "lastName": "林",
       "password": "lin123456",
@@ -18,6 +20,7 @@
     },
     {
       "userName": "johndoe%$123",
+      "mail": "johndoe%$123@gmail.com",
       "firstName": "Doe",
       "lastName": "Jhon",
       "password": "jhon1234",
@@ -25,7 +28,8 @@
       "id": "iG5HjbX"
     },
     {
-      "userName": "domin$mary",
+      "userName": "domin$mary33",
+      "mail": "domin$mary33@gmail.com",
       "firstName": "Mary",
       "lastName": "Domin",
       "password": "domin123",
@@ -34,11 +38,21 @@
     },
     {
       "userName": "demo#$user1",
+      "mail": "demo#$user1@gmail.com",
       "firstName": "User",
       "lastName": "Demo",
       "password": "demo123456",
       "auth": "user",
       "id": "sroS6tB"
+    },
+    {
+      "userName": "shaolin777",
+      "mail": "shaolin777@gmail.com",
+      "firstName": "66",
+      "lastName": "林",
+      "password": "12345678",
+      "auth": "user",
+      "id": "vmJ8uSI"
     }
   ]
 }

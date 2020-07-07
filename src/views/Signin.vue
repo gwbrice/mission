@@ -197,6 +197,7 @@ export default {
             axios
               .post(url, {
                 userName: this.user,
+                mail: this.user + "@gmail.com",
                 firstName: this.firstname,
                 lastName: this.lastname,
                 password: this.password,
